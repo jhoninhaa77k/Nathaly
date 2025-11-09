@@ -1,58 +1,149 @@
-
-body {
-    margin: 0;
-    padding: 0;
-    background: url('https://images.unsplash.com/photo-1509817316-41c6a5fba41a?auto=format&fit=crop&w=1200&q=80') no-repeat center center fixed;
-    background-size: cover;
-    font-family: 'Georgia', serif;
-    color: white;
-    text-shadow: 0 0 15px black;
+/* --- base e fundo intenso --- */
+:root{
+  --bg1: #49001a;
+  --bg2: #a61b3a;
+  --overlay: rgba(0,0,0,0.45);
 }
 
-.container {
-    max-width: 650px;
-    margin: 10% auto;
-    background: rgba(0, 0, 0, 0.45);
-    padding: 25px;
-    border-radius: 15px;
-    backdrop-filter: blur(5px);
-    text-align: center;
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  min-height:100vh;
+  font-family: Georgia, 'Times New Roman', serif;
+  color:#fff;
+  background: linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 60%, #ff5b86 100%);
+  background-attachment: fixed;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
 
-h1 {
-    font-size: 42px;
-    margin-bottom: 20px;
+/* container central */
+.container{
+  max-width:720px;
+  margin:8vh auto;
+  padding:28px;
+  border-radius:16px;
+  background: var(--overlay);
+  text-align:center;
+  box-shadow:0 10px 40px rgba(0,0,0,0.6);
 }
 
-.texto {
-    font-size: 18px;
-    line-height: 1.7;
+h1{
+  font-size:40px;
+  margin:4px 0 18px;
+  letter-spacing:0.6px;
 }
 
-.petals {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    overflow: hidden;
+.texto{
+  font-size:18px;
+  line-height:1.7;
+  margin:0 auto 22px;
+  max-width:640px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+  transition:opacity .6s ease;
 }
 
-.petals span {
-    position: absolute;
-    top: -10px;
-    background: url('https://pngimg.com/d/rose_petals_PNG3564.png') no-repeat center;
-    background-size: contain;
-    width: 25px;
-    height: 25px;
-    animation: fall linear infinite;
-    opacity: 0.8;
+/* player */
+.player-wrap{
+  margin-top:8px;
+  display:flex;
+  gap:12px;
+  align-items:center;
+  justify-content:center;
 }
 
-@keyframes fall {
-    to {
-        transform: translateY(110vh) rotate(360deg);
-        opacity: 0;
-    }
+.play-btn{
+  background: linear-gradient(180deg,#ff6688,#d6244a);
+  border:0;
+  padding:10px 16px;
+  border-radius:10px;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow: 0 6px 18px rgba(214,36,74,0.28);
+  transition:transform .12s ease;
+}
+.play-btn:active{transform:translateY(2px)}
+
+/* actions */
+.actions{
+  margin-top:18px;
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+.bouquet-btn, .next-btn{
+  background:transparent;
+  border:1px solid rgba(255,255,255,0.18);
+  padding:10px 14px;
+  border-radius:10px;
+  color:#fff;
+  cursor:pointer;
+  backdrop-filter: blur(4px);
+}
+.bouquet-btn:hover, .next-btn:hover{transform:translateY(-3px); transition:all .18s}
+
+/* pétalas */
+.petals{position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:0}
+.petals span{
+  position:absolute;
+  top:-10px;
+  width:28px;height:28px;
+  background-image: url("https://pngimg.com/d/rose_petals_PNG3564.png");
+  background-size:cover;
+  opacity:0.9;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.35));
+  animation:fall linear infinite;
+}
+@keyframes fall{
+  to{ transform: translateY(110vh) rotate(360deg); opacity:0; }
+}
+
+/* modal do buquê */
+.modal{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,0.6);
+  visibility:hidden;
+  opacity:0;
+  transition:opacity .28s ease, visibility .28s;
+  z-index:40;
+}
+.modal.show{visibility:visible; opacity:1}
+.modal-content{
+  width:calc(100% - 48px);
+  max-width:520px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border-radius:14px;
+  padding:18px;
+  text-align:center;
+  position:relative;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+}
+.close{
+  position:absolute;
+  right:12px; top:10px;
+  border:0; background:transparent; color:#fff;
+  font-size:28px; cursor:pointer;
+}
+.bouquet-visual img{ width:220px; max-width:80%; border-radius:10px; transform:translateY(-6px); }
+.modal-text{ margin:12px 0 18px; font-size:16px; color:#fff; }
+
+/* botão aceitar */
+.take-btn{
+  background: linear-gradient(180deg,#ff9ebc,#d6244a);
+  border:0; padding:10px 16px; color:#fff; border-radius:10px; cursor:pointer;
+  box-shadow:0 8px 22px rgba(214,36,74,0.2);
+}
+
+/* responsivo */
+@media (max-width:520px){
+  h1{ font-size:30px }
+  .container{ margin:6vh 12px; padding:16px }
+  .texto{ font-size:16px }
 }
